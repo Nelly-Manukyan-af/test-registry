@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpine-test
+  labels:
+    app: alpine-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alpine-test
+  template:
+    metadata:
+      labels:
+        app: alpine-test
+    spec:
+      imagePullSecrets:
+        - name: arctic-fox-registry-secret
+      containers:
+        - name: alpine
+          image: registry.arctic-fox.tech/nelly/alpine-test:latest
+          imagePullPolicy: Always
+          command: ["sleep", "infinity"]
+          resources:
+            limits:
+              memory: "64Mi"
+              cpu: "100m"
+            requests:
+              memory: "32Mi"
+              cpu: "50m"
